@@ -4,7 +4,16 @@ import Button from "@/components/atoms/Button";
 import Label from "@/components/atoms/Label";
 import Badge from "@/components/atoms/Badge";
 import ApperIcon from "@/components/ApperIcon";
-const FilterBar = ({ selectedPriority, onPriorityChange, selectedAssignee, onAssigneeChange, selectedLabels, onLabelChange, teamMembers, labels }) => {
+const FilterBar = ({ 
+  selectedPriority, 
+  onPriorityChange, 
+  selectedAssignee, 
+  onAssigneeChange, 
+  selectedLabels = [], 
+  onLabelChange, 
+  teamMembers = [], 
+  labels = [] 
+}) => {
   const priorities = ["All", "Critical", "High", "Medium", "Low"];
 
   return (
@@ -55,17 +64,17 @@ const FilterBar = ({ selectedPriority, onPriorityChange, selectedAssignee, onAss
             className="min-w-[120px]"
           >
             <option value="">Add Label...</option>
-            {labels.filter(label => !selectedLabels.includes(label.Id)).map((label) => (
+{labels?.filter(label => !selectedLabels?.includes(label.Id))?.map((label) => (
               <option key={label.Id} value={label.Id}>
                 {label.name}
               </option>
-            ))}
+            )) || null}
           </Select>
         </div>
         {selectedLabels.length > 0 && (
           <div className="flex flex-wrap gap-1">
-            {selectedLabels.map((labelId) => {
-              const label = labels.find(l => l.Id === labelId);
+{selectedLabels?.map((labelId) => {
+              const label = labels?.find(l => l.Id === labelId);
               if (!label) return null;
               return (
                 <div key={labelId} className="flex items-center">

@@ -170,12 +170,15 @@ onSearchChange={setSearchQuery}
       />
       
       <div className="p-6 space-y-6">
-        <FilterBar
+<FilterBar
           selectedPriority={selectedPriority}
           onPriorityChange={setSelectedPriority}
           selectedAssignee={selectedAssignee}
           onAssigneeChange={setSelectedAssignee}
+          selectedLabels={selectedLabels}
+          onLabelChange={handleLabelChange}
           teamMembers={teamMembers}
+          labels={labels}
         />
         
         {filteredIssues.length === 0 && !loading ? (
