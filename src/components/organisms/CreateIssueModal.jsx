@@ -7,7 +7,7 @@ import Select from "@/components/atoms/Select";
 import Button from "@/components/atoms/Button";
 import Label from "@/components/atoms/Label";
 import Badge from "@/components/atoms/Badge";
-import ApperIcon from "@/components/atoms/ApperIcon";
+import ApperIcon from "@/components/ApperIcon";
 
 const CreateIssueModal = ({ isOpen, onClose, onSubmit, teamMembers }) => {
 const [formData, setFormData] = useState({
