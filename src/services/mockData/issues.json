@@ -1,0 +1,146 @@
+{
+  "issues": [
+    {
+      "Id": 1,
+      "title": "Fix user authentication timeout",
+      "description": "Users are experiencing session timeouts after 15 minutes of activity. The expected behavior is 30 minutes of inactivity before timeout.",
+      "priority": "Critical",
+      "status": "In Progress",
+      "assignee": "sarah-chen",
+      "createdAt": "2024-01-15T10:30:00Z",
+      "updatedAt": "2024-01-16T14:20:00Z",
+      "history": [
+        {
+          "action": "Created",
+          "timestamp": "2024-01-15T10:30:00Z",
+          "details": "Issue created"
+        },
+        {
+          "action": "Status Changed",
+          "timestamp": "2024-01-16T09:15:00Z",
+          "details": "Changed from Backlog to In Progress"
+        },
+        {
+          "action": "Assigned",
+          "timestamp": "2024-01-16T09:16:00Z",
+          "details": "Assigned to Sarah Chen"
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "title": "Add dark mode toggle",
+      "description": "Implement a dark mode toggle in the user preferences section. Should persist user choice and apply theme consistently across all pages.",
+      "priority": "Medium",
+      "status": "Backlog",
+      "assignee": "mike-rodriguez",
+      "createdAt": "2024-01-12T16:45:00Z",
+      "updatedAt": "2024-01-12T16:45:00Z",
+      "history": [
+        {
+          "action": "Created",
+          "timestamp": "2024-01-12T16:45:00Z",
+          "details": "Issue created"
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "title": "Dashboard loading performance",
+      "description": "Dashboard takes 5+ seconds to load with large datasets. Need to implement pagination and lazy loading for better performance.",
+      "priority": "High",
+      "status": "Review",
+      "assignee": "alex-thompson",
+      "createdAt": "2024-01-10T08:22:00Z",
+      "updatedAt": "2024-01-17T11:30:00Z",
+      "history": [
+        {
+          "action": "Created",
+          "timestamp": "2024-01-10T08:22:00Z",
+          "details": "Issue created"
+        },
+        {
+          "action": "Status Changed",
+          "timestamp": "2024-01-14T13:45:00Z",
+          "details": "Changed from Backlog to In Progress"
+        },
+        {
+          "action": "Status Changed",
+          "timestamp": "2024-01-17T11:30:00Z",
+          "details": "Changed from In Progress to Review"
+        }
+      ]
+    },
+    {
+      "Id": 4,
+      "title": "Email notification system",
+      "description": "Users should receive email notifications for important account activities like password changes, login from new devices, etc.",
+      "priority": "Low",
+      "status": "Done",
+      "assignee": "emma-wilson",
+      "createdAt": "2024-01-05T14:10:00Z",
+      "updatedAt": "2024-01-14T16:55:00Z",
+      "history": [
+        {
+          "action": "Created",
+          "timestamp": "2024-01-05T14:10:00Z",
+          "details": "Issue created"
+        },
+        {
+          "action": "Status Changed",
+          "timestamp": "2024-01-08T10:20:00Z",
+          "details": "Changed from Backlog to In Progress"
+        },
+        {
+          "action": "Status Changed",
+          "timestamp": "2024-01-12T15:30:00Z",
+          "details": "Changed from In Progress to Review"
+        },
+        {
+          "action": "Status Changed",
+          "timestamp": "2024-01-14T16:55:00Z",
+          "details": "Changed from Review to Done"
+        }
+      ]
+    },
+    {
+      "Id": 5,
+      "title": "Mobile responsive navigation",
+      "description": "Navigation menu breaks on mobile devices. Need to implement hamburger menu and proper responsive behavior for screens smaller than 768px.",
+      "priority": "High",
+      "status": "Backlog",
+      "assignee": "",
+      "createdAt": "2024-01-18T09:15:00Z",
+      "updatedAt": "2024-01-18T09:15:00Z",
+      "history": [
+        {
+          "action": "Created",
+          "timestamp": "2024-01-18T09:15:00Z",
+          "details": "Issue created"
+        }
+      ]
+    },
+    {
+      "Id": 6,
+      "title": "API rate limiting",
+      "description": "Implement rate limiting on API endpoints to prevent abuse and ensure fair usage. Should include proper error messages and retry headers.",
+      "priority": "Medium",
+      "status": "In Progress",
+      "assignee": "sarah-chen",
+      "createdAt": "2024-01-16T11:20:00Z",
+      "updatedAt": "2024-01-17T08:45:00Z",
+      "history": [
+        {
+          "action": "Created",
+          "timestamp": "2024-01-16T11:20:00Z",
+          "details": "Issue created"
+        },
+        {
+          "action": "Status Changed",
+          "timestamp": "2024-01-17T08:45:00Z",
+          "details": "Changed from Backlog to In Progress"
+        }
+      ]
+    }
+  ]
+}
