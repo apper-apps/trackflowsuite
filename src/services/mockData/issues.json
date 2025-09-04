@@ -1,6 +1,6 @@
 {
   "issues": [
-    {
+{
       "Id": 1,
       "title": "Fix user authentication timeout",
       "description": "Users are experiencing session timeouts after 15 minutes of activity. The expected behavior is 30 minutes of inactivity before timeout.",
@@ -8,6 +8,7 @@
       "status": "In Progress",
       "assignee": "sarah-chen",
       "createdAt": "2024-01-15T10:30:00Z",
+      "dueDate": "2024-01-20T23:59:59Z",
       "updatedAt": "2024-01-16T14:20:00Z",
       "history": [
         {
@@ -27,13 +28,14 @@
         }
       ]
     },
-    {
+{
       "Id": 2,
       "title": "Add dark mode toggle",
       "description": "Implement a dark mode toggle in the user preferences section. Should persist user choice and apply theme consistently across all pages.",
       "priority": "Medium",
       "status": "Backlog",
       "assignee": "mike-rodriguez",
+      "dueDate": "2024-01-25T23:59:59Z",
       "createdAt": "2024-01-12T16:45:00Z",
       "updatedAt": "2024-01-12T16:45:00Z",
       "history": [
@@ -44,7 +46,7 @@
         }
       ]
     },
-    {
+{
       "Id": 3,
       "title": "Dashboard loading performance",
       "description": "Dashboard takes 5+ seconds to load with large datasets. Need to implement pagination and lazy loading for better performance.",
@@ -52,6 +54,7 @@
       "status": "Review",
       "assignee": "alex-thompson",
       "createdAt": "2024-01-10T08:22:00Z",
+      "dueDate": "2024-01-18T23:59:59Z",
       "updatedAt": "2024-01-17T11:30:00Z",
       "history": [
         {
@@ -71,7 +74,7 @@
         }
       ]
     },
-    {
+{
       "Id": 4,
       "title": "Email notification system",
       "description": "Users should receive email notifications for important account activities like password changes, login from new devices, etc.",
@@ -79,6 +82,7 @@
       "status": "Done",
       "assignee": "emma-wilson",
       "createdAt": "2024-01-05T14:10:00Z",
+      "dueDate": "2024-01-15T23:59:59Z",
       "updatedAt": "2024-01-14T16:55:00Z",
       "history": [
         {
@@ -103,13 +107,14 @@
         }
       ]
     },
-    {
+{
       "Id": 5,
       "title": "Mobile responsive navigation",
       "description": "Navigation menu breaks on mobile devices. Need to implement hamburger menu and proper responsive behavior for screens smaller than 768px.",
       "priority": "High",
       "status": "Backlog",
       "assignee": "",
+      "dueDate": "2024-01-22T23:59:59Z",
       "createdAt": "2024-01-18T09:15:00Z",
       "updatedAt": "2024-01-18T09:15:00Z",
       "history": [
@@ -120,13 +125,14 @@
         }
       ]
     },
-    {
+{
       "Id": 6,
       "title": "API rate limiting",
       "description": "Implement rate limiting on API endpoints to prevent abuse and ensure fair usage. Should include proper error messages and retry headers.",
       "priority": "Medium",
       "status": "In Progress",
       "assignee": "sarah-chen",
+      "dueDate": "2024-01-30T23:59:59Z",
       "createdAt": "2024-01-16T11:20:00Z",
       "updatedAt": "2024-01-17T08:45:00Z",
       "history": [

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { format } from "date-fns";
 import Modal from "@/components/molecules/Modal";
 import Button from "@/components/atoms/Button";
 import Input from "@/components/atoms/Input";
@@ -7,12 +8,13 @@ import Select from "@/components/atoms/Select";
 import Textarea from "@/components/atoms/Textarea";
 
 const CreateIssueModal = ({ isOpen, onClose, onSubmit, teamMembers }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     title: "",
     description: "",
     priority: "Medium",
     assignee: "",
-    status: "Backlog"
+    status: "Backlog",
+    dueDate: ""
   });
 
   const handleChange = (field, value) => {
@@ -23,23 +25,25 @@ const CreateIssueModal = ({ isOpen, onClose, onSubmit, teamMembers }) => {
     e.preventDefault();
     if (!formData.title.trim()) return;
     
-    onSubmit(formData);
+onSubmit(formData);
     setFormData({
       title: "",
       description: "",
       priority: "Medium",
       assignee: "",
-      status: "Backlog"
+      status: "Backlog",
+      dueDate: ""
     });
   };
 
-  const handleClose = () => {
+const handleClose = () => {
     setFormData({
       title: "",
       description: "",
       priority: "Medium",
       assignee: "",
-      status: "Backlog"
+      status: "Backlog",
+      dueDate: ""
     });
     onClose();
   };
@@ -75,7 +79,15 @@ const CreateIssueModal = ({ isOpen, onClose, onSubmit, teamMembers }) => {
               rows={4}
             />
           </div>
-
+<div>
+            <Label htmlFor="dueDate">Due Date</Label>
+            <Input
+              id="dueDate"
+              type="date"
+              value={formData.dueDate}
+              onChange={(e) => handleChange("dueDate", e.target.value)}
+            />
+          </div>
           <div>
             <Label htmlFor="priority">Priority</Label>
             <Select

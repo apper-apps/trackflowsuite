@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Badge from "@/components/atoms/Badge";
 import Avatar from "@/components/atoms/Avatar";
 import ApperIcon from "@/components/ApperIcon";
-import { format } from "date-fns";
+import { format, isAfter } from "date-fns";
 
 const IssueCard = ({ issue, teamMembers, onClick, isDragging = false }) => {
   const assignee = teamMembers.find(member => member.id === issue.assignee);
@@ -31,8 +31,12 @@ const IssueCard = ({ issue, teamMembers, onClick, isDragging = false }) => {
       exit={{ opacity: 0, y: -20 }}
       whileHover={{ y: -2, scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      className={`bg-white rounded-lg p-4 border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer group ${
+className={`bg-white rounded-lg p-4 border shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer group ${
         isDragging ? "opacity-60 rotate-2 scale-105 shadow-2xl z-50" : ""
+      } ${
+        issue.dueDate && isAfter(new Date(), new Date(issue.dueDate)) 
+          ? "border-red-500 border-2" 
+          : "border-gray-200"
       }`}
       onClick={onClick}
     >
@@ -73,9 +77,15 @@ const IssueCard = ({ issue, teamMembers, onClick, isDragging = false }) => {
           </span>
         </div>
         
-        <div className="flex items-center gap-1 text-xs text-gray-400">
+<div className="flex items-center gap-1 text-xs text-gray-400">
           <ApperIcon name="Calendar" size={12} />
-          {format(new Date(issue.createdAt), "MMM d")}
+          {issue.dueDate ? (
+            <span className={isAfter(new Date(), new Date(issue.dueDate)) ? "text-red-600 font-medium" : ""}>
+              Due: {format(new Date(issue.dueDate), "MMM d")}
+            </span>
+          ) : (
+            format(new Date(issue.createdAt), "MMM d")
+          )}
         </div>
       </div>
     </motion.div>

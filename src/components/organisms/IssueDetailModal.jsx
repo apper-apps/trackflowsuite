@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
-import Modal from "@/components/molecules/Modal";
-import Button from "@/components/atoms/Button";
-import Input from "@/components/atoms/Input";
-import Label from "@/components/atoms/Label";
-import Select from "@/components/atoms/Select";
-import Textarea from "@/components/atoms/Textarea";
-import Badge from "@/components/atoms/Badge";
-import Avatar from "@/components/atoms/Avatar";
 import ApperIcon from "@/components/ApperIcon";
+import Modal from "@/components/molecules/Modal";
+import Input from "@/components/atoms/Input";
+import Textarea from "@/components/atoms/Textarea";
+import Avatar from "@/components/atoms/Avatar";
+import Select from "@/components/atoms/Select";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
+import Label from "@/components/atoms/Label";
 
 const IssueDetailModal = ({ isOpen, onClose, issue, teamMembers, onUpdate, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -17,11 +17,12 @@ const IssueDetailModal = ({ isOpen, onClose, issue, teamMembers, onUpdate, onDel
   useEffect(() => {
     if (issue) {
       setEditData({
-        title: issue.title,
+title: issue.title,
         description: issue.description,
         priority: issue.priority,
         status: issue.status,
-        assignee: issue.assignee
+        assignee: issue.assignee,
+        dueDate: issue.dueDate || ""
       });
     }
   }, [issue]);
@@ -52,11 +53,12 @@ const IssueDetailModal = ({ isOpen, onClose, issue, teamMembers, onUpdate, onDel
 
   const handleCancel = () => {
     setEditData({
-      title: issue.title,
+title: issue.title,
       description: issue.description,
       priority: issue.priority,
       status: issue.status,
-      assignee: issue.assignee
+      assignee: issue.assignee,
+      dueDate: issue.dueDate || ""
     });
     setIsEditing(false);
   };
@@ -235,11 +237,26 @@ const IssueDetailModal = ({ isOpen, onClose, issue, teamMembers, onUpdate, onDel
               )}
             </div>
 
-            <div>
+<div>
               <Label>Created</Label>
               <p className="text-sm text-gray-600 mt-2">
                 {format(new Date(issue.createdAt), "PPpp")}
               </p>
+            </div>
+
+            <div>
+              <Label>Due Date</Label>
+              {isEditing ? (
+                <Input
+                  type="date"
+                  value={editData.dueDate}
+                  onChange={(e) => setEditData({...editData, dueDate: e.target.value})}
+                />
+              ) : (
+                <p className="text-sm text-gray-600 mt-2">
+                  {issue.dueDate ? format(new Date(issue.dueDate), "PP") : "No due date set"}
+                </p>
+              )}
             </div>
           </div>
 

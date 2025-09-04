@@ -19,7 +19,7 @@ export const issueService = {
     return issue ? { ...issue } : null;
   },
 
-  async create(issueData) {
+async create(issueData) {
     await delay(400);
     const highestId = Math.max(...issuesData.map(item => item.Id), 0);
     const newIssue = {
@@ -29,6 +29,7 @@ export const issueService = {
       priority: issueData.priority,
       status: issueData.status || "Backlog",
       assignee: issueData.assignee || "",
+      dueDate: issueData.dueDate || null,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       history: [{
