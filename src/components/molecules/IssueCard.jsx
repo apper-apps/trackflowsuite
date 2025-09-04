@@ -5,7 +5,7 @@ import Avatar from "@/components/atoms/Avatar";
 import ApperIcon from "@/components/ApperIcon";
 import { format, isAfter } from "date-fns";
 
-const IssueCard = ({ issue, teamMembers, onClick, isDragging = false }) => {
+const IssueCard = ({ issue, teamMembers, labels = [], onClick, isDragging = false }) => {
   const assignee = teamMembers.find(member => member.id === issue.assignee);
   
   const getPriorityVariant = (priority) => {
@@ -52,7 +52,27 @@ className={`bg-white rounded-lg p-4 border shadow-sm hover:shadow-lg transition-
         <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <ApperIcon name="MoreVertical" size={16} className="text-gray-400" />
         </div>
-      </div>
+</div>
+
+      {/* Labels */}
+      {issue.labels && issue.labels.length > 0 && (
+        <div className="flex flex-wrap gap-1 mb-3">
+          {issue.labels.slice(0, 3).map((labelId) => {
+            const label = labels.find(l => l.Id === labelId);
+            if (!label) return null;
+            return (
+              <Badge key={labelId} variant={`label-${label.color}`} className="text-xs">
+                {label.name}
+              </Badge>
+            );
+          })}
+          {issue.labels.length > 3 && (
+            <Badge variant="default" className="text-xs">
+              +{issue.labels.length - 3}
+            </Badge>
+          )}
+        </div>
+      )}
       
       <h3 className="font-medium text-gray-900 mb-2 line-clamp-2 leading-tight">
         {issue.title}

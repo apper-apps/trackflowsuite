@@ -26,10 +26,11 @@ async create(issueData) {
       Id: highestId + 1,
       title: issueData.title,
       description: issueData.description,
-      priority: issueData.priority,
+priority: issueData.priority,
       status: issueData.status || "Backlog",
       assignee: issueData.assignee || "",
       dueDate: issueData.dueDate || null,
+      labels: issueData.labels || [],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       history: [{
@@ -52,6 +53,7 @@ async create(issueData) {
       ...oldIssue,
       ...updateData,
       updatedAt: new Date().toISOString(),
+labels: updateData.labels !== undefined ? updateData.labels : oldIssue.labels,
       history: [
         ...oldIssue.history,
         {

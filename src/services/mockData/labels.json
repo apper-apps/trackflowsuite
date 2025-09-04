@@ -1,0 +1,60 @@
+{
+  "labels": [
+    {
+      "Id": 1,
+      "name": "bug",
+      "color": "red",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "Id": 2,
+      "name": "enhancement",
+      "color": "blue",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "Id": 3,
+      "name": "feature",
+      "color": "green",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "Id": 4,
+      "name": "documentation",
+      "color": "purple",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "Id": 5,
+      "name": "urgent",
+      "color": "orange",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "Id": 6,
+      "name": "help wanted",
+      "color": "cyan",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "Id": 7,
+      "name": "wontfix",
+      "color": "gray",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "Id": 8,
+      "name": "duplicate",
+      "color": "yellow",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    }
+  ]
+}

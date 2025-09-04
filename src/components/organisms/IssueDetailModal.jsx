@@ -9,11 +9,12 @@ import Select from "@/components/atoms/Select";
 import Badge from "@/components/atoms/Badge";
 import Button from "@/components/atoms/Button";
 import Label from "@/components/atoms/Label";
-
+import { labelService } from "@/services/api/labelService";
 const IssueDetailModal = ({ isOpen, onClose, issue, teamMembers, onUpdate, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({});
-
+  const [allLabels, setAllLabels] = useState([]);
+  const [issueLabels, setIssueLabels] = useState([]);
   useEffect(() => {
     if (issue) {
       setEditData({
@@ -22,10 +23,41 @@ title: issue.title,
         priority: issue.priority,
         status: issue.status,
         assignee: issue.assignee,
-        dueDate: issue.dueDate || ""
+        dueDate: issue.dueDate || "",
+        labels: issue.labels || []
       });
+      loadIssueLabels();
     }
   }, [issue]);
+
+  const loadAllLabels = async () => {
+    try {
+      const labels = await labelService.getAll();
+      setAllLabels(labels);
+    } catch (error) {
+      console.error("Error loading labels:", error);
+    }
+  };
+
+  const loadIssueLabels = async () => {
+    if (issue?.labels?.length > 0) {
+      try {
+        const labels = await labelService.getByIds(issue.labels);
+        setIssueLabels(labels);
+      } catch (error) {
+        console.error("Error loading issue labels:", error);
+        setIssueLabels([]);
+      }
+    } else {
+      setIssueLabels([]);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      loadAllLabels();
+    }
+  }, [isOpen]);
 
   if (!issue) return null;
 
@@ -52,13 +84,14 @@ title: issue.title,
   };
 
   const handleCancel = () => {
-    setEditData({
+setEditData({
 title: issue.title,
       description: issue.description,
       priority: issue.priority,
       status: issue.status,
       assignee: issue.assignee,
-      dueDate: issue.dueDate || ""
+      dueDate: issue.dueDate || "",
+      labels: issue.labels || []
     });
     setIsEditing(false);
   };
@@ -131,7 +164,7 @@ title: issue.title,
 
         {/* Issue content */}
         <div className="space-y-6">
-          {/* Title */}
+{/* Title */}
           <div>
             <Label>Title</Label>
             {isEditing ? (
@@ -204,7 +237,7 @@ title: issue.title,
               )}
             </div>
 
-            <div>
+<div>
               <Label>Assignee</Label>
               {isEditing ? (
                 <Select
@@ -232,6 +265,57 @@ title: issue.title,
                     </>
                   ) : (
                     <span className="text-sm text-gray-500">Unassigned</span>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Labels */}
+            <div>
+              <Label>Labels</Label>
+              {isEditing ? (
+                <div className="space-y-3">
+                  <div className="flex flex-wrap gap-2">
+                    {allLabels.map((label) => {
+                      const isSelected = editData.labels.includes(label.Id);
+                      return (
+                        <button
+                          key={label.Id}
+                          type="button"
+                          onClick={() => {
+                            const newLabels = isSelected
+                              ? editData.labels.filter(id => id !== label.Id)
+                              : [...editData.labels, label.Id];
+                            setEditData({...editData, labels: newLabels});
+                          }}
+                          className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
+                            isSelected
+                              ? 'ring-2 ring-primary ring-offset-2'
+                              : 'hover:ring-1 hover:ring-gray-300'
+                          }`}
+                        >
+                          <Badge variant={`label-${label.color}`} className="cursor-pointer">
+                            {label.name}
+                            {isSelected && <ApperIcon name="Check" size={12} className="ml-1" />}
+                          </Badge>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {editData.labels.length === 0 && (
+                    <p className="text-sm text-gray-500">No labels selected</p>
+                  )}
+                </div>
+              ) : (
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {issueLabels.length > 0 ? (
+                    issueLabels.map((label) => (
+                      <Badge key={label.Id} variant={`label-${label.color}`}>
+                        {label.name}
+                      </Badge>
+                    ))
+                  ) : (
+                    <span className="text-sm text-gray-500">No labels assigned</span>
                   )}
                 </div>
               )}
@@ -287,7 +371,7 @@ title: issue.title,
         </div>
       </div>
     </Modal>
-  );
+);
 };
 
 export default IssueDetailModal;

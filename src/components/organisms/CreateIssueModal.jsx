@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import Modal from "@/components/molecules/Modal";
-import Button from "@/components/atoms/Button";
 import Input from "@/components/atoms/Input";
-import Label from "@/components/atoms/Label";
-import Select from "@/components/atoms/Select";
 import Textarea from "@/components/atoms/Textarea";
+import Select from "@/components/atoms/Select";
+import Button from "@/components/atoms/Button";
+import Label from "@/components/atoms/Label";
+import Badge from "@/components/atoms/Badge";
+import ApperIcon from "@/components/atoms/ApperIcon";
 
 const CreateIssueModal = ({ isOpen, onClose, onSubmit, teamMembers }) => {
 const [formData, setFormData] = useState({
@@ -14,8 +16,26 @@ const [formData, setFormData] = useState({
     priority: "Medium",
     assignee: "",
     status: "Backlog",
-    dueDate: ""
+    dueDate: "",
+    labels: []
   });
+  const [allLabels, setAllLabels] = useState([]);
+
+  useEffect(() => {
+    if (isOpen) {
+      loadLabels();
+    }
+  }, [isOpen]);
+
+  const loadLabels = async () => {
+    try {
+      const { labelService } = await import('@/services/api/labelService');
+      const labels = await labelService.getAll();
+      setAllLabels(labels);
+    } catch (error) {
+      console.error("Error loading labels:", error);
+    }
+  };
 
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -32,18 +52,20 @@ onSubmit(formData);
       priority: "Medium",
       assignee: "",
       status: "Backlog",
-      dueDate: ""
+      dueDate: "",
+      labels: []
     });
   };
 
 const handleClose = () => {
-    setFormData({
+setFormData({
       title: "",
       description: "",
       priority: "Medium",
       assignee: "",
       status: "Backlog",
-      dueDate: ""
+      dueDate: "",
+      labels: []
     });
     onClose();
   };
@@ -87,6 +109,43 @@ const handleClose = () => {
               value={formData.dueDate}
               onChange={(e) => handleChange("dueDate", e.target.value)}
             />
+          </div>
+
+          {/* Labels */}
+          <div>
+            <Label>Labels</Label>
+            <div className="space-y-3">
+              <div className="flex flex-wrap gap-2">
+                {allLabels.map((label) => {
+                  const isSelected = formData.labels.includes(label.Id);
+                  return (
+                    <button
+                      key={label.Id}
+                      type="button"
+                      onClick={() => {
+                        const newLabels = isSelected
+                          ? formData.labels.filter(id => id !== label.Id)
+                          : [...formData.labels, label.Id];
+                        handleChange("labels", newLabels);
+                      }}
+                      className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
+                        isSelected
+                          ? 'ring-2 ring-primary ring-offset-2'
+                          : 'hover:ring-1 hover:ring-gray-300'
+                      }`}
+                    >
+                      <Badge variant={`label-${label.color}`} className="cursor-pointer">
+                        {label.name}
+                        {isSelected && <ApperIcon name="Check" size={12} className="ml-1" />}
+                      </Badge>
+                    </button>
+                  );
+                })}
+              </div>
+              {formData.labels.length === 0 && (
+                <p className="text-sm text-gray-500">No labels selected</p>
+              )}
+            </div>
           </div>
           <div>
             <Label htmlFor="priority">Priority</Label>

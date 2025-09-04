@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { issueService } from "@/services/api/issueService";
-import Header from "@/components/organisms/Header";
-import FilterBar from "@/components/molecules/FilterBar";
-import KanbanBoard from "@/components/organisms/KanbanBoard";
-import CreateIssueModal from "@/components/organisms/CreateIssueModal";
+import { labelService } from "@/services/api/labelService";
 import IssueDetailModal from "@/components/organisms/IssueDetailModal";
-import Loading from "@/components/ui/Loading";
+import Header from "@/components/organisms/Header";
+import CreateIssueModal from "@/components/organisms/CreateIssueModal";
+import KanbanBoard from "@/components/organisms/KanbanBoard";
+import FilterBar from "@/components/molecules/FilterBar";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
 
 const Dashboard = () => {
   const [issues, setIssues] = useState([]);
@@ -21,24 +22,28 @@ const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedPriority, setSelectedPriority] = useState("All");
   const [selectedAssignee, setSelectedAssignee] = useState("");
-  
-  // Modal states
+const [labels, setLabels] = useState([]);
+// Modal states
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [selectedIssue, setSelectedIssue] = useState(null);
 
+  // Filter states  
+  const [selectedLabels, setSelectedLabels] = useState([]);
   const loadData = async () => {
     try {
       setError("");
       setLoading(true);
       
-      const [issuesData, membersData] = await Promise.all([
+const [issuesData, membersData, labelsData] = await Promise.all([
         issueService.getAll(),
-        issueService.getTeamMembers()
+        issueService.getTeamMembers(),
+        labelService.getAll()
       ]);
       
       setIssues(issuesData);
       setTeamMembers(membersData);
+      setLabels(labelsData);
     } catch (err) {
       setError("Failed to load data. Please try again.");
       console.error("Error loading data:", err);
@@ -52,6 +57,7 @@ const Dashboard = () => {
   }, []);
 
   // Filter issues based on search query, priority, and assignee
+// Filter issues based on search, priority, assignee, and labels
   useEffect(() => {
     let filtered = [...issues];
 
@@ -74,9 +80,15 @@ const Dashboard = () => {
       filtered = filtered.filter(issue => issue.assignee === selectedAssignee);
     }
 
-    setFilteredIssues(filtered);
-  }, [issues, searchQuery, selectedPriority, selectedAssignee]);
+// Filter by labels
+    if (selectedLabels.length > 0) {
+      filtered = filtered.filter(issue => 
+        issue.labels && issue.labels.some(labelId => selectedLabels.includes(labelId))
+      );
+    }
 
+setFilteredIssues(filtered);
+  }, [issues, searchQuery, selectedPriority, selectedAssignee, selectedLabels]);
   const handleCreateIssue = async (issueData) => {
     try {
       const newIssue = await issueService.create(issueData);
@@ -102,9 +114,8 @@ const Dashboard = () => {
     } catch (err) {
       toast.error("Failed to update issue. Please try again.");
       console.error("Error updating issue:", err);
-    }
+}
   };
-
   const handleDeleteIssue = async (id) => {
     try {
       const success = await issueService.delete(id);
@@ -131,6 +142,10 @@ const Dashboard = () => {
       toast.error("Failed to update issue status. Please try again.");
       console.error("Error updating issue status:", err);
     }
+};
+
+  const handleLabelChange = (newSelectedLabels) => {
+    setSelectedLabels(newSelectedLabels);
   };
 
   const handleIssueClick = (issue) => {
@@ -151,7 +166,7 @@ const Dashboard = () => {
       <Header
         onCreateIssue={() => setShowCreateModal(true)}
         searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
+onSearchChange={setSearchQuery}
       />
       
       <div className="p-6 space-y-6">
@@ -171,9 +186,12 @@ const Dashboard = () => {
             onAction={() => setShowCreateModal(true)}
           />
         ) : (
-          <KanbanBoard
+<KanbanBoard
             issues={filteredIssues}
             teamMembers={teamMembers}
+            labels={labels}
+            selectedLabels={selectedLabels}
+            onLabelChange={handleLabelChange}
             onIssueClick={handleIssueClick}
             onStatusChange={handleStatusChange}
           />
@@ -184,9 +202,9 @@ const Dashboard = () => {
         isOpen={showCreateModal}
         onClose={() => setShowCreateModal(false)}
         onSubmit={handleCreateIssue}
-        teamMembers={teamMembers}
+teamMembers={teamMembers}
+        labels={labels}
       />
-
       <IssueDetailModal
         isOpen={showDetailModal}
         onClose={() => {
@@ -195,8 +213,9 @@ const Dashboard = () => {
         }}
         issue={selectedIssue}
         teamMembers={teamMembers}
-        onUpdate={handleUpdateIssue}
+onUpdate={handleUpdateIssue}
         onDelete={handleDeleteIssue}
+        labels={labels}
       />
     </div>
   );
